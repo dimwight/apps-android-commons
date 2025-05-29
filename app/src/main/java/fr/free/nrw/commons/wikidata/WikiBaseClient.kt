@@ -52,10 +52,14 @@ class WikiBaseClient
         fun getClaimIdsByProperty(
             fileEntityId: String,
             property: String,
-        ): Observable<List<String>> =
-            wikiBaseInterface.getClaimsByProperty(fileEntityId, property).map { claimsResponse ->
-                claimsResponse.claims[property]?.mapNotNull { claim -> claim.id } ?: emptyList()
+        ): Observable<List<String>> {
+            val claimsByProperty = wikiBaseInterface.getClaimsByProperty(fileEntityId, property)
+            return claimsByProperty.map {
+                val partials = it.claims[property]
+                val mapNotNull = partials?.mapNotNull { it.id }
+                mapNotNull ?: emptyList()
             }
+        }
 
         fun postDeleteClaims(
             entityId: String,
