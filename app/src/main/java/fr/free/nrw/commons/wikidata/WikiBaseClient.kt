@@ -5,6 +5,8 @@ import fr.free.nrw.commons.di.NetworkingModule
 import fr.free.nrw.commons.media.PAGE_ID_PREFIX
 import fr.free.nrw.commons.upload.UploadResult
 import fr.free.nrw.commons.upload.WikiBaseInterface
+import fr.free.nrw.commons.upload.depicts.Claims
+import fr.free.nrw.commons.wikidata.model.StatementPartial
 import fr.free.nrw.commons.wikidata.mwapi.MwPostResponse
 import fr.free.nrw.commons.wikidata.mwapi.MwQueryResponse
 import io.reactivex.Observable
@@ -52,10 +54,21 @@ class WikiBaseClient
         fun getClaimIdsByProperty(
             fileEntityId: String,
             property: String,
-        ): Observable<List<String>> =
-            wikiBaseInterface.getClaimsByProperty(fileEntityId, property).map { claimsResponse ->
-                claimsResponse.claims[property]?.mapNotNull { claim -> claim.id } ?: emptyList()
+        ): Observable<List<String>> {
+            val claimsByProperty: Observable<Claims> =
+                wikiBaseInterface.getClaimsByProperty(fileEntityId, property)
+            val map: Observable<List<String>> =
+                    claimsByProperty.map { it: Claims ->
+                val partials: List<StatementPartial>?
+                     = it.claims[property]
+                val mapNotNull: List<String>?
+                    = partials?.mapNotNull { it: StatementPartial ->
+                    it.id
+                }
+                mapNotNull ?: emptyList()
             }
+            return map
+        }
 
         fun postDeleteClaims(
             entityId: String,
