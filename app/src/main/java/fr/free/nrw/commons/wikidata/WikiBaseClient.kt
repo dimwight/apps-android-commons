@@ -57,7 +57,7 @@ class WikiBaseClient
         ): Observable<List<String>> {
             val claimsByProperty: Observable<Claims> =
                 wikiBaseInterface.getClaimsByProperty(fileEntityId, property)
-            val map: Observable<List<String>> =
+            val listObservable: Observable<List<String>> =
                     claimsByProperty.map { it: Claims ->
                 val partials: List<StatementPartial>?
                      = it.claims[property]
@@ -67,7 +67,7 @@ class WikiBaseClient
                 }
                 mapNotNull ?: emptyList()
             }
-            return map
+            return listObservable
         }
 
         fun postDeleteClaims(
