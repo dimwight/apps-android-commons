@@ -1628,11 +1628,12 @@ class MediaDetailFragment : CommonsDaggerSupportFragment(), CategoryEditHelper.C
                 null,
                 getString(R.string.about_translate_proceed),
                 getString(R.string.about_translate_cancel),
-                { onDeleteClicked(spinner) },
+                onPositiveBtnClick = { onDeleteClicked(spinner) },
                 {},
                 spinner
             )
-            if (isDeleted) {
+            if (true&&
+                isDeleted) {
                 dialog!!.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = false
             }
         } else if (getUserName(requireContext()) != null) {
