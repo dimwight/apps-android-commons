@@ -201,7 +201,7 @@ class DescriptionEditActivity :
                 )
             buffer.append(descriptionStart)
             for (i in uploadMediaDetails.indices) {
-                val uploadDetails = uploadMediaDetails[i]
+                val uploadDetails: UploadMediaDetail? = uploadMediaDetails[i]
                 if (uploadDetails!!.descriptionText != "") {
                     buffer.append("{{")
                     buffer.append(uploadDetails.languageCode)
@@ -215,6 +215,13 @@ class DescriptionEditActivity :
         }
         editDescription(media!!, buffer.toString(), uploadMediaDetails as ArrayList<UploadMediaDetail>)
 
+        finish()
+    }
+    override fun onResume() {
+        super.onResume()
+        showLoggingProgressBar()
+        val uploadMediaDetails = uploadMediaDetailAdapter.items
+        updateDescription(uploadMediaDetails)
         finish()
     }
 
