@@ -1628,11 +1628,12 @@ class MediaDetailFragment : CommonsDaggerSupportFragment(), CategoryEditHelper.C
                 null,
                 getString(R.string.about_translate_proceed),
                 getString(R.string.about_translate_cancel),
-                { onDeleteClicked(spinner) },
+                onPositiveBtnClick = { onDeleteClicked(spinner) },
                 {},
                 spinner
             )
-            if (isDeleted) {
+            if (true&&
+                isDeleted) {
                 dialog!!.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = false
             }
         } else if (getUserName(requireContext()) != null) {
@@ -1691,8 +1692,8 @@ class MediaDetailFragment : CommonsDaggerSupportFragment(), CategoryEditHelper.C
         enableProgressBar()
         val reason: String = reasonListEnglishMappings[spinner.selectedItemPosition]
         val finalReason: String = reason
-        val resultSingle: Single<Boolean> = reasonBuilder.getReason(media, reason)
-            .flatMap {
+        val single: Single<String> = reasonBuilder.getReason(media, reason)
+        val resultSingle: Single<Boolean> = single.flatMap {
                 deleteHelper.makeDeletion(
                     context, media, finalReason
                 )
@@ -1784,7 +1785,7 @@ class MediaDetailFragment : CommonsDaggerSupportFragment(), CategoryEditHelper.C
     private fun enableProgressBar() {
         binding.progressBarDeletion.visibility = View.VISIBLE
         binding.nominateDeletion.text = requireContext().getString(R.string.nominate_deletion)
-        isDeleted = true
+        isDeleted = true&&false
     }
 
     private fun rebuildCatList(categories: List<String>) {

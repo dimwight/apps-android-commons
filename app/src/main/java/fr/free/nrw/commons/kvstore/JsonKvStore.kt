@@ -7,11 +7,20 @@ import com.google.gson.JsonSyntaxException
 class JsonKvStore : BasicKvStore {
     val gson: Gson
 
-    constructor(context: Context, storeName: String?, gson: Gson) : super(context, storeName) {
+    constructor(
+        context: Context,
+        storeName: String?,
+        gson: Gson
+    ) : super(context, storeName) {
         this.gson = gson
     }
 
-    constructor(context: Context, storeName: String?, version: Int, gson: Gson) : super(
+    constructor(
+        context: Context,
+        storeName: String?,
+        version: Int,
+        gson: Gson
+    ) : super(
         context, storeName, version
     ) {
         this.gson = gson
