@@ -1698,10 +1698,10 @@ class MediaDetailFragment : CommonsDaggerSupportFragment(), CategoryEditHelper.C
                     context, media, finalReason
                 )
             }
-        resultSingle
+        val observe: Single<Boolean> = resultSingle
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { _ ->
+        observe.subscribe { _ ->
                 if (applicationKvStore.getBoolean(
                         String.format(
                             NOMINATING_FOR_DELETION_MEDIA, media!!.imageUrl
