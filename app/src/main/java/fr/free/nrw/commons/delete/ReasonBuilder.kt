@@ -39,7 +39,8 @@ class ReasonBuilder @Inject constructor(
         if (media == null || reason == null) {
             return Single.just("Not known")
         }
-        return fetchArticleNumber(media, reason)
+        val articleNumber = fetchArticleNumber(media, reason)
+        return articleNumber
     }
 
     /**
@@ -56,9 +57,12 @@ class ReasonBuilder @Inject constructor(
 
     private fun fetchArticleNumber(media: Media, reason: String): Single<String> {
         return if (checkAccount()) {
-            okHttpJsonApiClient
+            val achievements: Single<FeedbackResponse?> = okHttpJsonApiClient
                 .getAchievements(sessionManager.userName)
-                .map { feedbackResponse -> appendArticlesUsed(feedbackResponse, media, reason) }
+            val map = achievements.map {
+                appendArticlesUsed(it, media, reason)
+            }
+            map
         } else {
             Single.just("")
         }

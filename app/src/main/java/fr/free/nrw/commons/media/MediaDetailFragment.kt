@@ -122,6 +122,7 @@ import fr.free.nrw.commons.wikidata.mwapi.MwQueryPage.Revision
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import org.apache.commons.lang3.StringUtils
 import timber.log.Timber
@@ -1609,7 +1610,8 @@ class MediaDetailFragment : CommonsDaggerSupportFragment(), CategoryEditHelper.C
 
     @SuppressLint("StringFormatInvalid")
     fun onDeleteButtonClicked() {
-        if (getUserName(requireContext()) != null && getUserName(requireContext()) == media!!.author) {
+        if (getUserName(requireContext()) != null
+                && getUserName(requireContext()) == media!!.author) {
             val languageAdapter: ArrayAdapter<String> = ArrayAdapter(
                 requireActivity(),
                 R.layout.simple_spinner_dropdown_list, reasonList
@@ -1655,11 +1657,8 @@ class MediaDetailFragment : CommonsDaggerSupportFragment(), CategoryEditHelper.C
             input.addTextChangedListener(object : TextWatcher {
                 fun handleText() {
                     val okButton: Button = d!!.getButton(AlertDialog.BUTTON_POSITIVE)
-                    if (input.text.isEmpty() || isDeleted) {
-                        okButton.isEnabled = false
-                    } else {
-                        okButton.isEnabled = true
-                    }
+                    okButton.isEnabled=
+                        !(input.text.isEmpty() || isDeleted)
                 }
 
                 override fun afterTextChanged(arg0: Editable) {
@@ -1698,7 +1697,9 @@ class MediaDetailFragment : CommonsDaggerSupportFragment(), CategoryEditHelper.C
                     context, media, finalReason
                 )
             }
-        val observe: Single<Boolean> = resultSingle
+        val observe: Single<Boolean> = resultSingle.doOnError() {
+            println("6313: it = $it")
+        }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
         observe.subscribe { _ ->
