@@ -277,7 +277,7 @@ class OkHttpJsonApiClient @Inject constructor(
                 if (startIndex>-1) {
                     json = json.substring(startIndex)
                 }
-                Timber.d("Response for achievements is %s", json)
+                println("0506: json = ${json}")
                 try {
                     return@fromCallable gson.fromJson<FeedbackResponse>(
                         json,
