@@ -273,7 +273,10 @@ class OkHttpJsonApiClient @Inject constructor(
             if (response.body != null && response.isSuccessful) {
                 var json: String = response.body!!.string()
                 // Extract JSON from response
-                json = json.substring(json.indexOf('{'))
+                val startIndex = json.indexOf('{')
+                if (startIndex>-1) {
+                    json = json.substring(startIndex)
+                }
                 Timber.d("Response for achievements is %s", json)
                 try {
                     return@fromCallable gson.fromJson<FeedbackResponse>(
