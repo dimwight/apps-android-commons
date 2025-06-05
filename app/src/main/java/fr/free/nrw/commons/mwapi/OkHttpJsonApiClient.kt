@@ -1,6 +1,7 @@
 package fr.free.nrw.commons.mwapi
 
 import android.text.TextUtils
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import fr.free.nrw.commons.BuildConfig
@@ -277,7 +278,8 @@ class OkHttpJsonApiClient @Inject constructor(
                 if (startIndex>-1) {
                     json = json.substring(startIndex)
                 }
-                Timber.d("Response for achievements is %s", json)
+                println("0506: json = ${json}")
+                Log.i("", "0506: json = ${json}")
                 try {
                     return@fromCallable gson.fromJson<FeedbackResponse>(
                         json,

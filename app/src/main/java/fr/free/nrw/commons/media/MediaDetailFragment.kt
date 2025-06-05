@@ -1785,7 +1785,7 @@ class MediaDetailFragment : CommonsDaggerSupportFragment(), CategoryEditHelper.C
     private fun enableProgressBar() {
         binding.progressBarDeletion.visibility = View.VISIBLE
         binding.nominateDeletion.text = requireContext().getString(R.string.nominate_deletion)
-        isDeleted = true&&!isBetaFlavour
+        isDeleted = true&&false
     }
 
     private fun rebuildCatList(categories: List<String>) {
