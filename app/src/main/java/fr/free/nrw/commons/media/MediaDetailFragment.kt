@@ -110,6 +110,7 @@ import fr.free.nrw.commons.upload.UploadMediaDetail
 import fr.free.nrw.commons.upload.categories.UploadCategoriesFragment
 import fr.free.nrw.commons.upload.depicts.DepictsFragment
 import fr.free.nrw.commons.upload.mediaDetails.UploadMediaDetailFragment
+import fr.free.nrw.commons.utils.ConfigUtils.isBetaFlavour
 import fr.free.nrw.commons.utils.DateUtil.getDateStringWithSkeletonPattern
 import fr.free.nrw.commons.utils.DialogUtil.showAlertDialog
 import fr.free.nrw.commons.utils.LangCodeUtils.getLocalizedResources
@@ -1784,7 +1785,7 @@ class MediaDetailFragment : CommonsDaggerSupportFragment(), CategoryEditHelper.C
     private fun enableProgressBar() {
         binding.progressBarDeletion.visibility = View.VISIBLE
         binding.nominateDeletion.text = requireContext().getString(R.string.nominate_deletion)
-        isDeleted = true&&false
+        isDeleted = true&&!isBetaFlavour
     }
 
     private fun rebuildCatList(categories: List<String>) {
