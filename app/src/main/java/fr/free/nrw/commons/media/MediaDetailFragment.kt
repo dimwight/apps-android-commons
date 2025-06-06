@@ -632,7 +632,8 @@ class MediaDetailFragment : CommonsDaggerSupportFragment(), CategoryEditHelper.C
     }
 
     private fun onDeletionPageExists(deletionPageExists: Boolean) {
-        if (getUserName(requireContext()) == null && getUserName(requireContext()) != media!!.author) {
+        if (getUserName(requireContext()) == null
+                && getUserName(requireContext()) != media!!.author) {
             binding.nominateDeletion.visibility = View.GONE
             binding.nominatedDeletionBanner.visibility = View.GONE
         } else if (deletionPageExists) {
@@ -645,8 +646,8 @@ class MediaDetailFragment : CommonsDaggerSupportFragment(), CategoryEditHelper.C
                 )
                 binding.progressBarDeletion.visibility = View.GONE
             }
+            if (false)
             binding.nominateDeletion.visibility = View.GONE
-
             binding.nominatedDeletionBanner.visibility = View.VISIBLE
         } else if (!isCategoryImage) {
             binding.nominateDeletion.visibility = View.VISIBLE
